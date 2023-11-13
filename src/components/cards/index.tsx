@@ -8,7 +8,7 @@ import {
 } from './style';
 import { formatPrice } from '../../../Util/formatPrice';
 import { useCart } from '../../../store/cartStore';
-import LoadingSkeleton from '../cards copy';
+import LoadingSkeleton from '../loadingSkeleton';
 type ProductType = {
     products: ProductProps,
 }
