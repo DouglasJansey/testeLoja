@@ -1,6 +1,7 @@
 import styled, { keyframes, css } from "styled-components";
 
 import { FiShoppingBag } from "react-icons/fi";
+
 const skeletonAnimation = keyframes`
   to{
     background-color: hsl(200,20%, 70%)
@@ -10,15 +11,18 @@ const skeletonAnimation = keyframes`
 
   }
 `;
+type Props={
+  isloading: any;
+}
 const skeletonLoading = css`
   div:nth-child(n){
     &:after {
         content: "";
         animation: ${skeletonAnimation} 1s linear infinite alternate;
-        width: 98%;
-        height: 95%;
+        width: 100%;
+        height: 97%;
         top:0;
-        bottom: ;
+        bottom: 0;
         border-radius: 2px;
         left:0;
         right:0;
@@ -28,7 +32,7 @@ const skeletonLoading = css`
       }
       }
 `
-export const ContainerCard = styled.div`
+export const ContainerCard = styled.div<Props>`
   @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
   font-family: "Montserrat", sans-serif;
   display: flex;
@@ -41,7 +45,7 @@ export const ContainerCard = styled.div`
   margin: 10px;
   overflow: hidden;
   position: relative;
-  ${({loading}: any) => loading ? skeletonLoading: ''};
+  ${(props) => (props.isloading ? skeletonLoading : "")};
 `;
 export const ImageConatainer = styled.div`
   display: flex;
@@ -57,14 +61,14 @@ export const ImageConatainer = styled.div`
 export const PriceContainer = styled.div`
   font-weight: bold;
   border-radius: 5px;
-  padding: 5px;
+  padding: 4px;
   color: #fff;
   background: #373737;
   position: relative;
 
   p {
     margin: 0;
-    font-size: 1rem;
+    font-size: .9rem;
   }
 `;
 export const ContainerMiddle = styled.span`

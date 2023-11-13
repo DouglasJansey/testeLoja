@@ -5,7 +5,7 @@ import {
     Container, LogoContainer, NameMKS,
     NameSistemas, CartContainer, Cart
 } from './style';
-import { useCart } from '../../../store/cartStore'
+import { useCart } from '../../../store/cartStore';
 
 const CartModal = dynamic(() => import('@/components/cart'), {ssr: false})
 

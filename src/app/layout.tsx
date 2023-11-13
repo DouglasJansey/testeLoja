@@ -2,8 +2,9 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import GlobalStyle from '../../style/globalStyle';
-import Header from '@/components/header';
-import Footer from '@/components/footer'
+import dynamic from 'next/dynamic';
+const Header = dynamic(() => import('../components/header/index'), {ssr: false})
+const Footer = dynamic(() => import('../components/footer/index'), {ssr: false})
 
 const queryClient = new QueryClient();
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
               <GlobalStyle />
               <QueryClientProvider client={queryClient}>
                 <Header />
-                {children}
+                  {children}
                 <Footer />
               </QueryClientProvider>
             </body>

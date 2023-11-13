@@ -10,7 +10,8 @@ import { formatPrice } from '../../../Util/formatPrice';
 import { useCart } from '../../../store/cartStore';
 
 type ProductType = {
-    products: ProductProps
+    product?: ProductProps,
+    loading: boolean,
 }
 
 type ProductProps = {
@@ -21,16 +22,23 @@ type ProductProps = {
     photo: string,
     price: string,
 }
-export default function Card({ products }: ProductType) {
-    const { name, description, photo, price } = products;
+const initialStats = {
+    name,
+    description, photo, price
+}
+export default function Card({ product, loading }: ProductType) {
+    const { name, description, photo, price }: string | any = product || initialStats;
     const [addCart, cart] = useCart((state) => [state.addCart, state.cart])
     const priceFixed = formatPrice(+price)
     const handleAddCart = () => {
-        addCart({...products, qtd: 1})
+       product && addCart({...product, qtd: 1})
+    }
+    const skeletonLoading = (product: any ) => {
+        if(!product) return true
     }
     return (
         <>
-            <ContainerCard loading={true}>
+            <ContainerCard isloading={skeletonLoading(product)}>
                 <ImageConatainer>
                     <img src={photo} alt='' />
                 </ImageConatainer>
