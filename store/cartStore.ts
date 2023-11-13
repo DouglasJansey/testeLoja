@@ -5,7 +5,7 @@ type Item = {
   name: string;
   photo: string;
   price: string;
-  qtd?: number;
+  qtd: number;
 };
 
 type CartType = {
@@ -15,7 +15,7 @@ type CartType = {
   addCart: (item: Item) => void;
   removeCart: (id: number) => void;
   setOpenCart: () => void;
-  setTotal: () => void;
+  result: () => void
 
 };
 
@@ -23,19 +23,9 @@ export const useCart = create<CartType>((set) => ({
   cart: [],
   openCart: false,
   total: 0,
-  setTotal: () => set((state) => ({ total: state.cart
-    .filter((item, index) => state.cart.indexOf(item) === index)
-    .map(item => {
-    if(item.qtd){
-      return item.qtd * +item.price
-    }else{
-      return +item.price * 1
-    }
-  })
-  .reduce((acc, curr) => acc + curr)
-})),
+  addCart: (item) => set((state) => ({ cart: [...state.cart, item], total: state.total + (+item.price)})),
+  result: () => set((state) => ({ total: state.cart.map((item) => +item.price * item.qtd).reduce((acc, curr) => acc + curr, 0) })),
   setOpenCart: () => set((state) => ({ openCart: !state.openCart })),
-  addCart: (item) => set((state) => ({ cart: [...state.cart, item] })),
   removeCart: (id) =>
     set((state) => ({ cart: state.cart.filter((item) => item.id !== id) })),
   })

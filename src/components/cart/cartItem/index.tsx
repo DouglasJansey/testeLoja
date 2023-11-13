@@ -19,29 +19,29 @@ type ProductProps = {
     name: string,
     photo: string,
     price: string,
-    qtd?: number,
+    qtd: number,
 }
 export default function CartItem({ prodCart, index }: ItemType) {
-    const [removeCart, cart, setTotal] = useCart(state => [state.removeCart, state.cart, state.setTotal]);
+    const [ removeCart, cart, result] = useCart(state => [state.removeCart, state.cart, state.result]);
+    const [quantity, setQuantity] = useState(prodCart.qtd);
+    const handleQuantity = (increment: number) => {
+        const newQuantity = Math.max(1, quantity + increment);
+        setQuantity(newQuantity);
+        cart[index] = {...cart[index], qtd: newQuantity};
+        // const updatedCart = cart.map((item, i) =>
+        //     i === index ? { ...item, qtd: newQuantity } : item
+        // );
 
-    const [quantity, setQuantity]: any = useState(1)
-    const handleQuantity = (e: any) =>{
-        e.preventDefault()
-        const {innerText} = e.target;
-        if(innerText === '+'){
-            setQuantity(quantity + 1)
-            !cart[index].qtd ? cart[index] = {...cart[index], qtd: 2} : cart[index].qtd  = cart[index].qtd! + 1;
-        }else{
-            if(quantity > 1){
-                setQuantity(quantity - 1)
-                !cart[index].qtd ? '' : cart[index].qtd  = cart[index].qtd! - 1;
-            }
-        }
-        setTotal()
-    }
-    const removeItem = (id: number) =>{
+        // const newTotal = updatedCart.reduce(
+        //     (acc, item) => acc + (item.qtd) * +item.price,
+        //     0
+        // );
+        result();
+    };
+    console.log(cart)
+    const removeItem = (id: number) => {
         removeCart(id)
-        setTotal()
+        result()
     }
     return (
         <>
@@ -62,13 +62,15 @@ export default function CartItem({ prodCart, index }: ItemType) {
                             Qtd:
                         </p>
                         <ContainerButtonIncrement>
-                            <button type='button' onClick={(e) => handleQuantity(e)}>-</button>
+                            <button type="button" onClick={() => handleQuantity(-1)}>
+                                -
+                            </button>
                             <div>
-                                <p>
-                                    {quantity}
-                                </p>
+                                <p>{quantity}</p>
                             </div>
-                            <button type='button' onClick={(e) => handleQuantity(e)}>+</button>
+                            <button type="button" onClick={() => handleQuantity(1)}>
+                                +
+                            </button>
                         </ContainerButtonIncrement>
                     </QuantityContainer>
                     <PriceContainer>
