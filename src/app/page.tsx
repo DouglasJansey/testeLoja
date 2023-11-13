@@ -1,9 +1,8 @@
-import Card from '@/components/cards'
-
+import Products from '@/components/products';
 export default function Home() {
   return (
-    <main>
-      <Card/>
-    </main>
+    <>
+      <Products />
+    </>
   )
 }

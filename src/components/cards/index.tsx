@@ -1,35 +1,64 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
+import React, { useState } from 'react';
 import {
     PriceContainer, ContainerMiddle, ContainerCard,
     ImageConatainer, NameContainer, IconBag,
-    DescContainer, Name, ButtonContainer
+    DescContainer, Name, ButtonContainer,
 } from './style';
-import { montserrat } from '../../../style/variables';
+import { formatPrice } from '../../../Util/formatPrice';
+import { useCart } from '../../../store/cartStore';
+import LoadingSkeleton from '../loadingSkeleton';
+type ProductType = {
+    products: ProductProps,
+}
 
-export default function Header() {
+type ProductProps = {
+    id: number,
+    name: string,
+    description: string,
+    brand: string,
+    photo: string,
+    price: string,
+    qtd?: number
+}
+
+export default function Card({ products }: ProductType) {
+    const { name, photo, price, description } = products && products
+    const [delay, setDelay] = useState(true);
+    const [addCart, cart, setTotal] = useCart(state => [state.addCart, state.cart, state.setTotal])
+    const priceFixed = formatPrice(+price)
+    const handleAddCart = () => {
+        addCart(products)
+        setTotal()
+    }
+    setTimeout(() => {
+        setDelay(false)
+    }, 2000)
     return (
-        <>
-            <ContainerCard className={montserrat.className}>
+        <>{
+            delay ? <LoadingSkeleton />
+         :   <ContainerCard>
                 <ImageConatainer>
-                    <img src='https://img.irroba.com.br/fit-in/600x600/filters:fill(transparent):quality(80)/ousyshoe/catalog/relogio/design-sem-nome-37.png' alt='' />
+                    <img src={photo} alt='' />
                 </ImageConatainer>
                 <ContainerMiddle>
                     <NameContainer>
-                        <Name>Apple Watch series 4 GPS</Name>
+                        <Name>{name}</Name>
                     </NameContainer>
                     <PriceContainer>
-                        <p>R$399</p>
+                        <p>R${priceFixed}</p>
                     </PriceContainer>
                 </ContainerMiddle>
                 <DescContainer>
-                    <Name>Redesigned from scratch and completely revised.</Name>
+                    <Name>{description}</Name>
                 </DescContainer>
-                <ButtonContainer>
-                    <IconBag/>
-                    <p className={montserrat.className}>COMPRAR</p>
+                <ButtonContainer onClick={() => handleAddCart()}>
+                    <IconBag />
+                    <p>COMPRAR</p>
                 </ButtonContainer>
             </ContainerCard>
+        }
         </>
     )
 }

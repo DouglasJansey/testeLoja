@@ -2,8 +2,17 @@ import styled, { keyframes, css } from "styled-components";
 
 import { FiShoppingBag } from "react-icons/fi";
 
+const skeletonAnimation = keyframes`
+  to{
+    background-color: hsl(200,20%, 70%)
+  }
+  from{
+    background-color: hsl(200,20%, 95%)
+
+  }
+`;
+
 export const ContainerCard = styled.div`
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
   font-family: "Montserrat", sans-serif;
   display: flex;
   flex-direction: column;
@@ -21,8 +30,9 @@ export const ImageConatainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 52%;
-  padding: 5px;
+  margin: 5px;
   position: relative;
+  animation: ${skeletonAnimation} 1s linear infinite alternate;
   img {
     height: 100%;
   }
@@ -30,9 +40,10 @@ export const ImageConatainer = styled.div`
 export const PriceContainer = styled.div`
   font-weight: bold;
   border-radius: 5px;
-  padding: 4px;
+  width: 38%;
+  height: 35px;
   color: #fff;
-  background: #373737;
+  animation: ${skeletonAnimation} 1s linear infinite alternate;
   position: relative;
 
   p {
@@ -54,9 +65,10 @@ export const NameContainer = styled.div`
   align-items: center;
   font-size: 1.1rem;
   width: 60%;
-  height: 100%;
+  height: 80%;
   padding: 0;
   position: relative;
+  animation: ${skeletonAnimation} 1s linear infinite alternate;
 `;
 export const Name = styled.p`
   width: auto;
@@ -73,7 +85,8 @@ export const DescContainer = styled.div`
   width: auto;
   color: #2c2c2c;
   font-size: 60%;
-  padding: 5px;
+  margin: 5px;
+  animation: ${skeletonAnimation} 1s linear infinite alternate;
   position: relative;
 `;
 export const IconBag = styled(FiShoppingBag)`
