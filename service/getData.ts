@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import axios from "axios";
 import { useQuery } from "react-query";
 import { usePages } from '../store/setPage';
 import { useEffect } from "react";
+=======
+import axios from 'axios';
+import { useQuery } from "react-query";
+
+>>>>>>> main
 export function GetData(){
     const {data, isLoading} = useQuery('products',  () => {
         return axios
@@ -12,8 +18,16 @@ export function GetData(){
         staleTime: 0,
         cacheTime: 0,
         refetchInterval: 0,
+<<<<<<< HEAD
     })
     const {products} = !isLoading && data
     
+=======
+        retryDelay: 2000,
+        
+    })
+    const {products} = !isLoading && data
+
+>>>>>>> main
     return {products, isLoading};
 }

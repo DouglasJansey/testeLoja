@@ -4,26 +4,8 @@ type Props = {
   width: string;
   height: string;
 };
-type Visibile = {
-  hidden: boolean;
-};
 
-export const Container = styled.div<Visibile>`
-  display: flex;
-  align-items: center;
-  visibility: ${(props:{hidden: boolean}) => (props.hidden ? "visible" : "hidden")};
-  justify-content: space-between;
-  flex-direction: column;
-  position: absolute;
-  width: 100%;
-  height: auto;
-  box-shadow: 0px 0px 10px #2c2c2c;
-  max-width: 486px;
-  background: #0f52ba;
-  z-index: 5;
-  top: 0;
-  right: 0;
-`;
+
 export const CntainerTitle = styled.div`
   display: flex;
   justify-content: space-between;

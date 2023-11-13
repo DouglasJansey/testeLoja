@@ -3,12 +3,10 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { ContainerProducts, ProductsList } from './style'
 import { GetData } from '../../../service/getData';
-import Card from '../../components/cards';
 
-
-//const Card = dynamic(() => import('../../components/cards'), {ssr:false});
+const Card = dynamic(() => import('../../components/cards'), {ssr:false});
 type ProductType = {
-    products: ProductProps[] | undefined,
+    products: ProductProps[],
     isLoading: boolean,
 }
 type ProductProps = {
@@ -22,16 +20,16 @@ type ProductProps = {
 
 export default function Products() {
     const { products, isLoading }: ProductType = GetData();
-
     return (
         <>
             <ContainerProducts>
                 <ProductsList>
-                    {products?.map(product => (
+                    {products && products.map((product) => (
                         <div key={product.id}>
-                            <Card products={products} loading={isLoading} />
+                            <Card products={product} />
                         </div>
-                    ))}
+                    ))
+                    }
                 </ProductsList>
             </ContainerProducts>
         </>

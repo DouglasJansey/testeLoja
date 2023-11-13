@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import React, { useState, useEffect, ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import {
     Container, ButtonFinish, ContainerCart, ImageContainer, NameContainer,
     QuantityContainer, PriceContainer, ContainerButtonIncrement, ButtonClosed,
@@ -7,42 +9,25 @@ import {
 } from './style';
 import { useCart } from '../../../store/cartStore';
 import { formatPrice } from '../../../Util/formatPrice';
+import CartItem from './cartItem'
 
 type ProductProps = {
     id: number,
     name: string,
     photo: string,
     price: string,
-    qtd: number,
+    qtd?: number,
 }
 export default function Cart() {
-    const [cart, removeCart, openCart, setOpenCart] = useCart(state => [state.cart, state.removeCart, state.openCart, state.setOpenCart]);
-    const [quantity, setQuantity]: any = useState(1)
-    const [valorTotal, setValorTotal] = useState(0)
-    //const reduceValue = cart.map((item) => +item.price).reduce((acc, curr) => +acc + +curr, 0);
-
+    const [cart, openCart, setOpenCart, total] = useCart(state => [state.cart, state.openCart, state.setOpenCart, state.total]);
     const removeRepeat = cart.filter(function (item, i) {
         return cart.indexOf(item) === i;
     });
-    const handleQuantity = (e: any, index: number) => {
-        const { innerText } = e.target;
-        const currentCard = cart[index];
-        if (currentCard.qtd > 1 && innerText === '-') {
-            currentCard.qtd = currentCard.qtd - 1;
-        } else if (currentCard.qtd >= 1 && innerText === '+') {
-            currentCard.qtd = currentCard.qtd + 1;
-        }
-        setQuantity(currentCard.qtd)
-    }
-    const cartTotal = (cart: ProductProps[]): any | ReactNode =>{
-       const subTotal = cart.map((item: ProductProps) => item.qtd * +item.price)
-       const total = subTotal.reduce((acc, curr) => acc + curr, 0)
-        return formatPrice(total);
-    }
+
     const closeCartModal = () => {
         setOpenCart()
     }
-
+    console.log(total)
     return (
         <>
             <Container hidden={openCart}>
@@ -56,38 +41,10 @@ export default function Cart() {
                     </ButtonClosed>
                 </CntainerTitle>
                 <ContainerItens>
-                    {cart.length > 0 ? removeRepeat.map((item, index) => (
-                        <>
-                            <ContainerCart key={item.id}>
-                                <ButtonClosed width='18px' height='18px'
-                                    onClick={() => removeCart(item.id)}>
-                                    X
-                                </ButtonClosed>
-                                <ImageContainer>
-                                    <img src={item.photo} alt='' />
-                                </ImageContainer>
-                                <NameContainer>
-                                    {item.name}
-                                </NameContainer>
-                                <QuantityContainer>
-                                    <p>
-                                        Qtd:
-                                    </p>
-                                    <ContainerButtonIncrement>
-                                        <button onClick={(e) => handleQuantity(e, index)}>-</button>
-                                        <div>
-                                            <p>
-                                                {item.qtd}
-                                            </p>
-                                        </div>
-                                        <button onClick={(e) => handleQuantity(e, index)}>+</button>
-                                    </ContainerButtonIncrement>
-                                </QuantityContainer>
-                                <PriceContainer>
-                                    {formatPrice(item.qtd * +item.price)}
-                                </PriceContainer>
-                            </ContainerCart>
-                        </>
+                    {removeRepeat.length > 0 ? removeRepeat.map((item, i) => (
+                        <div key={item.id}>
+                            <CartItem prodCart={item} index={i}/>
+                        </div>
                     )) :
                         <CntainerTitle>
                             <h5>Ainda não tem nenhum item no carrinho!</h5>
@@ -95,7 +52,7 @@ export default function Cart() {
                     }
                 </ContainerItens>
                 <Total>
-                    Valor Total: &nbsp; {cartTotal(cart)}
+                    Valor Total: &nbsp; {formatPrice(total)}
                 </Total>
                 <ButtonFinish>
                     Finalizar Compra

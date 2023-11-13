@@ -11,7 +11,7 @@ const CartModal = dynamic(() => import('@/components/cart'), {ssr: false})
 
 export default function Header() {
     const [cart, openCart, setOpenCart] = useCart(state => [state.cart, state.openCart, state.setOpenCart]);
-    const filterRepeat = cart.filter(function (item, i) {
+    const filterRepeat = cart.filter( (item, i) => {
         return cart.indexOf(item) === i;
     });
     const handleOpenCart= () =>{
