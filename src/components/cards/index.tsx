@@ -22,10 +22,7 @@ type ProductProps = {
     photo: string,
     price: string,
 }
-const initialStats = {
-    name,
-    description, photo, price
-}
+
 export default function Card({ product, loading }: ProductType) {
     const { name, description, photo, price }: string | any = product || initialStats;
     const [addCart, cart] = useCart((state) => [state.addCart, state.cart])
