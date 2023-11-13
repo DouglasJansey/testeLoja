@@ -1,17 +1,44 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useState } from 'react';
-import React from 'react';
 import {
     PriceContainer, ContainerMiddle, ContainerCard,
     ImageConatainer, NameContainer, IconBag,
     DescContainer, Name, ButtonContainer,
 } from './style';
+import { formatPrice } from '../../../Util/formatPrice';
+import { useCart } from '../../../store/cartStore';
+import LoadingSkeleton from '../loadingSkeleton';
+type ProductType = {
+    products: ProductProps,
+}
 
-export default function Cards() {
+type ProductProps = {
+    id: number,
+    name: string,
+    description: string,
+    brand: string,
+    photo: string,
+    price: string,
+    qtd?: number
+}
+
+export default function Card({ products }: ProductType) {
+    const { name, photo, price, description } = products && products
+    const [delay, setDelay] = useState(true);
+    const [addCart, cart, setTotal] = useCart(state => [state.addCart, state.cart, state.setTotal])
+    const priceFixed = formatPrice(+price)
+    const handleAddCart = () => {
+        addCart(products)
+        setTotal()
+    }
+    setTimeout(() => {
+        setDelay(false)
+    }, 2000)
     return (
-        <>
-            <ContainerCard>
+        <>{
+            delay ? <LoadingSkeleton />
+         :   <ContainerCard>
                 <ImageConatainer>
                     <img src={photo} alt='' />
                 </ImageConatainer>
