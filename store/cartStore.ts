@@ -23,13 +23,16 @@ export const useCart = create<CartType>((set) => ({
   cart: [],
   openCart: false,
   total: 0,
-  setTotal: () => set((state) => ({ total: state.cart.map(item => {
+  setTotal: () => set((state) => ({ total: state.cart
+    .filter((item, index) => state.cart.indexOf(item) === index)
+    .map(item => {
     if(item.qtd){
       return item.qtd * +item.price
     }else{
       return +item.price * 1
     }
-  }).reduce((acc, curr) => acc + curr)
+  })
+  .reduce((acc, curr) => acc + curr)
 })),
   setOpenCart: () => set((state) => ({ openCart: !state.openCart })),
   addCart: (item) => set((state) => ({ cart: [...state.cart, item] })),
