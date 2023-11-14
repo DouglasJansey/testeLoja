@@ -41,7 +41,7 @@ export default function Card({ products }: ProductType) {
     return (
         <>{
             delay ? <LoadingSkeleton />
-         :   <ContainerCard>
+         :   <ContainerCard data-testid="card-component" >
                 <ImageConatainer>
                     <img src={photo} alt='' />
                 </ImageConatainer>

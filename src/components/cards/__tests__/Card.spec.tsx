@@ -12,7 +12,7 @@ describe('<Card />', () => {
             price: '8500'
         }
         const { getByText } = render(<Card products={product} />);
-        const element = getByText('Iphone');
+        const element = getByText('COMPRAR');
         expect(element).toBeTruthy();
         expect(element).toHaveProperty('id')
     });
