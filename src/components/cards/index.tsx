@@ -26,11 +26,14 @@ type ProductProps = {
 export default function Card({ products }: ProductType) {
     const { name, photo, price, description } = products && products
     const [delay, setDelay] = useState(true);
-    const [addCart, cart, setTotal] = useCart(state => [state.addCart, state.cart, state.setTotal])
+    const [addCart, cart, result] = useCart(state => [state.addCart, state.cart, state.result])
     const priceFixed = formatPrice(+price)
     const handleAddCart = () => {
-        addCart(products)
-        setTotal()
+        const disableAddCart = cart.some((item) => item.id === products.id);
+        if(!disableAddCart){
+            addCart({ ...products, qtd: 1 });
+            result()
+        }
     }
     setTimeout(() => {
         setDelay(false)
@@ -38,7 +41,7 @@ export default function Card({ products }: ProductType) {
     return (
         <>{
             delay ? <LoadingSkeleton />
-         :   <ContainerCard>
+         :   <ContainerCard data-testid="card-component" >
                 <ImageConatainer>
                     <img src={photo} alt='' />
                 </ImageConatainer>

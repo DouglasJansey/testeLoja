@@ -19,15 +19,12 @@ type ProductProps = {
     qtd?: number,
 }
 export default function Cart() {
-    const [cart, openCart, setOpenCart, total] = useCart(state => [state.cart, state.openCart, state.setOpenCart, state.total]);
-    const removeRepeat = cart.filter(function (item, i) {
-        return cart.indexOf(item) === i;
-    });
+    const [cart, openCart, setOpenCart, total, result] = useCart(state => [state.cart, state.openCart, state.setOpenCart, state.total, state.result]);
 
     const closeCartModal = () => {
         setOpenCart()
     }
-    console.log(total)
+
     return (
         <>
             <Container hidden={openCart}>
@@ -41,7 +38,7 @@ export default function Cart() {
                     </ButtonClosed>
                 </CntainerTitle>
                 <ContainerItens>
-                    {removeRepeat.length > 0 ? removeRepeat.map((item, i) => (
+                    {cart.length > 0 ? cart.map((item, i) => (
                         <div key={item.id}>
                             <CartItem prodCart={item} index={i}/>
                         </div>

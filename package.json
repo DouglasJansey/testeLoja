@@ -36,6 +36,7 @@
     "@types/babel__traverse": "^7.20.4",
 >>>>>>> main
     "@types/jest": "^29.5.8",
+    "@types/mocha": "^10.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
